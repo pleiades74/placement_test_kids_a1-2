@@ -1,1275 +1,329 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📊 English Level Diagnostic Test</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            padding: 20px;
-        }
-
-        .quiz-container {
-            width: 100%;
-            max-width: 750px;
-            background: white;
-            border-radius: 30px;
-            padding: 35px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
-            max-height: 95vh;
-            overflow-y: auto;
-        }
-
-        .welcome-content {
-            text-align: center;
-        }
-
-        .logo-badge {
-            font-size: 4rem;
-            display: inline-block;
-            background: linear-gradient(135deg, #f7971e, #ffd200);
-            padding: 20px;
-            border-radius: 50%;
-            width: 100px;
-            height: 100px;
-            line-height: 60px;
-            margin-bottom: 20px;
-        }
-
-        h1 {
-            font-size: 2.2rem;
-            color: #1a1a2e;
-            margin-bottom: 8px;
-        }
-
-        .subtitle {
-            font-size: 1.1rem;
-            color: #6c757d;
-            margin-bottom: 25px;
-        }
-
-        .info-cards {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-
-        .info-card {
-            background: #f8f9fa;
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-weight: 600;
-            color: #1a1a2e;
-            border: 2px solid #e9ecef;
-        }
-
-        .info-card.level-badge {
-            background: linear-gradient(135deg, #0f3460, #1a1a2e);
-            color: white;
-            border: none;
-            font-size: 1.1rem;
-            padding: 12px 25px;
-        }
-
-        .student-form {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 20px;
-            margin-bottom: 25px;
-        }
-
-        .input-group {
-            display: flex;
-            align-items: center;
-            background: white;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            border: 2px solid #e9ecef;
-            overflow: hidden;
-        }
-
-        .input-icon {
-            padding: 0 15px;
-            font-size: 1.2rem;
-        }
-
-        .fancy-input {
-            flex: 1;
-            padding: 14px 15px 14px 0;
-            border: none;
-            outline: none;
-            font-size: 1rem;
-            background: transparent;
-        }
-
-        .btn-primary {
-            width: 100%;
-            padding: 16px;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: white;
-            background: linear-gradient(135deg, #0f3460, #1a1a2e);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(15, 52, 96, 0.3);
-        }
-
-        .btn-primary:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .test-info {
-            background: #e8edf5;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .test-info h3 {
-            color: #0f3460;
-            margin-bottom: 8px;
-        }
-
-        .test-info ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .test-info ul li {
-            padding: 4px 0;
-            color: #1a1a2e;
-        }
-
-        .test-info ul li::before {
-            content: "✓ ";
-            color: #0f3460;
-            font-weight: bold;
-        }
-
-        .social-links {
-            margin-top: 20px;
-        }
-
-        .social-label {
-            display: block;
-            font-weight: 600;
-            color: #6c757d;
-            margin-bottom: 10px;
-        }
-
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .social-icon {
-            display: inline-block;
-            padding: 8px 16px;
-            border-radius: 30px;
-            text-decoration: none;
-            color: #1a1a2e;
-            font-weight: 600;
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-            transition: all 0.3s;
-        }
-
-        .social-icon:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .social-icon.whatsapp:hover {
-            background: #25D366;
-            color: white;
-            border-color: #25D366;
-        }
-
-        .quiz-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .student-badge {
-            background: #f8f9fa;
-            padding: 8px 16px;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .progress-bar-container {
-            background: #e9ecef;
-            border-radius: 30px;
-            height: 12px;
-            margin-bottom: 15px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .progress-bar-fill {
-            height: 100%;
-            border-radius: 30px;
-            background: linear-gradient(90deg, #0f3460, #533483);
-            transition: width 0.5s ease;
-            width: 0%;
-        }
-
-        .progress-text {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 0.7rem;
-            font-weight: 700;
-            color: #6c757d;
-        }
-
-        .question-type {
-            display: inline-block;
-            padding: 5px 14px;
-            background: linear-gradient(135deg, #f7971e, #ffd200);
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            color: #1a1a2e;
-            margin-bottom: 15px;
-        }
-
-        .question-card {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 16px;
-            margin-bottom: 20px;
-            border-left: 5px solid #0f3460;
-        }
-
-        .question-number {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: #6c757d;
-            margin-bottom: 8px;
-        }
-
-        .question-text {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #1a1a2e;
-            line-height: 1.6;
-        }
-
-        .options-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        @media (max-width: 500px) {
-            .options-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .option-btn {
-            padding: 14px 18px;
-            border: 3px solid #e9ecef;
-            border-radius: 12px;
-            background: white;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            color: #1a1a2e;
-            transition: all 0.3s;
-            text-align: left;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .option-btn:hover {
-            transform: translateX(5px);
-            border-color: #0f3460;
-        }
-
-        .option-letter {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: #e9ecef;
-            font-weight: 800;
-            font-size: 0.8rem;
-            color: #6c757d;
-            flex-shrink: 0;
-        }
-
-        .option-btn.selected {
-            border-color: #0f3460;
-            background: #e8edf5;
-        }
-
-        .option-btn.selected .option-letter {
-            background: #0f3460;
-            color: white;
-        }
-
-        .nav-buttons {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .btn-nav {
-            flex: 1;
-            min-width: 100px;
-            padding: 14px 20px;
-            border: none;
-            border-radius: 12px;
-            font-size: 0.95rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            color: white;
-        }
-
-        .btn-nav:hover {
-            transform: translateY(-2px);
-        }
-
-        .btn-prev {
-            background: #6c757d;
-        }
-
-        .btn-prev:hover {
-            background: #5a6268;
-        }
-
-        .btn-submit {
-            background: #dc3545;
-        }
-
-        .btn-submit:hover {
-            background: #c82333;
-        }
-
-        .btn-next {
-            background: linear-gradient(135deg, #0f3460, #1a1a2e);
-        }
-
-        .btn-next:hover {
-            box-shadow: 0 10px 25px rgba(15, 52, 96, 0.3);
-        }
-
-        .results-content {
-            text-align: center;
-            padding: 20px 0;
-        }
-
-        .results-icon {
-            font-size: 5rem;
-            margin-bottom: 10px;
-        }
-
-        .results-title {
-            font-size: 2rem;
-            color: #1a1a2e;
-            margin-bottom: 15px;
-        }
-
-        .results-score {
-            display: flex;
-            align-items: baseline;
-            justify-content: center;
-            gap: 5px;
-            margin-bottom: 20px;
-        }
-
-        .score-number {
-            font-size: 4rem;
-            font-weight: 900;
-            color: #f7971e;
-        }
-
-        .score-total {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #6c757d;
-        }
-
-        .results-detail {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        @media (max-width: 600px) {
-            .results-detail {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        .result-stat {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 12px;
-        }
-
-        .stat-label {
-            display: block;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #6c757d;
-            margin-bottom: 5px;
-        }
-
-        .stat-value {
-            font-size: 1.6rem;
-            font-weight: 900;
-            color: #1a1a2e;
-        }
-
-        .stat-value.high {
-            color: #28a745;
-        }
-        .stat-value.medium {
-            color: #f7971e;
-        }
-        .stat-value.low {
-            color: #dc3545;
-        }
-
-        .level-result-box {
-            background: linear-gradient(135deg, #0f3460, #1a1a2e);
-            color: white;
-            padding: 20px;
-            border-radius: 16px;
-            margin: 20px 0;
-        }
-
-        .level-result-box h2 {
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-        }
-
-        .level-result-box .level-sub {
-            font-size: 1rem;
-            opacity: 0.9;
-        }
-
-        .level-result-box .level-recommendation {
-            margin-top: 10px;
-            background: rgba(255,255,255,0.15);
-            padding: 10px;
-            border-radius: 10px;
-            font-weight: 600;
-        }
-
-        .results-message {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #6c757d;
-            margin-bottom: 20px;
-        }
-
-        .auto-send-notice {
-            background: #d4edda;
-            color: #155724;
-            padding: 12px;
-            border-radius: 12px;
-            margin-top: 15px;
-            font-weight: 600;
-            border: 2px solid #28a745;
-        }
-
-        .whatsapp-test-btn {
-            background: #25D366 !important;
-            margin-top: 10px;
-            padding: 12px;
-            border: none;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 700;
-            color: white;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.3s;
-        }
-
-        .whatsapp-test-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        .loading-spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 0.8s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .progress-note {
-            font-size: 0.85rem;
-            color: #6c757d;
-            text-align: center;
-            margin-top: 10px;
-            font-weight: 600;
-        }
-
-        .part-breakdown {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px;
-            margin: 15px 0;
-        }
-
-        @media (max-width: 500px) {
-            .part-breakdown {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .part-score {
-            background: #f8f9fa;
-            padding: 10px;
-            border-radius: 10px;
-        }
-
-        .part-score .part-name {
-            font-weight: 600;
-            font-size: 0.85rem;
-            color: #6c757d;
-        }
-
-        .part-score .part-value {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: #1a1a2e;
-        }
-
-        .breakdown-bar {
-            height: 6px;
-            background: #e9ecef;
-            border-radius: 10px;
-            margin-top: 5px;
-            overflow: hidden;
-        }
-
-        .breakdown-bar .fill {
-            height: 100%;
-            border-radius: 10px;
-            transition: width 0.8s ease;
-        }
-
-        .fill.green { background: #28a745; }
-        .fill.orange { background: #f7971e; }
-        .fill.red { background: #dc3545; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Young Learner English Placement Test</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#183153;--blue:#2878d4;--light:#f4f8fc;--text:#243447;--muted:#667085;--green:#16835b;--orange:#d97706;--red:#d64545}
+body{font-family:Segoe UI,Tahoma,Arial,sans-serif;background:linear-gradient(135deg,#eaf3ff,#f8fbff);color:var(--text);min-height:100vh;padding:22px}
+.container{max-width:820px;margin:auto;background:#fff;border-radius:24px;box-shadow:0 18px 50px rgba(24,49,83,.15);overflow:hidden}
+header{background:var(--navy);color:#fff;padding:30px}
+header h1{font-size:clamp(1.7rem,4vw,2.35rem);margin-bottom:8px}
+header p{opacity:.9;line-height:1.5}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.badge{background:rgba(255,255,255,.13);padding:7px 11px;border-radius:999px;font-size:.85rem}
+main{padding:28px}
+.screen{display:none}.screen.active{display:block}
+h2{color:var(--navy);margin-bottom:12px}
+.intro{line-height:1.65;color:#465467}
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:22px 0}
+.info{background:var(--light);padding:15px;border-radius:14px;text-align:center}
+.info strong{display:block;color:var(--navy);font-size:1.1rem;margin-bottom:4px}
+label{display:block;font-weight:700;margin:15px 0 7px}
+input,select{width:100%;padding:13px 14px;border:1.5px solid #d5dce5;border-radius:12px;font-size:1rem;outline:none}
+input:focus,select:focus{border-color:var(--blue)}
+.note{font-size:.88rem;color:var(--muted);margin-top:7px}
+.topbar{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:18px}
+.progress-wrap{height:9px;background:#e8edf3;border-radius:99px;overflow:hidden;flex:1}
+.progress{height:100%;width:0;background:var(--blue);transition:.25s}
+.progress-text{font-size:.88rem;color:var(--muted);white-space:nowrap}
+.section-tag{display:inline-block;background:#e9f3ff;color:#1764ad;padding:6px 10px;border-radius:999px;font-weight:700;font-size:.82rem;margin-bottom:12px}
+.question{font-size:1.25rem;font-weight:700;line-height:1.5;margin-bottom:18px}
+.options{display:grid;gap:11px}
+.option{border:1.5px solid #dbe2ea;background:#fff;border-radius:14px;padding:14px 15px;text-align:left;cursor:pointer;font-size:1rem;transition:.15s}
+.option:hover{border-color:var(--blue);background:#f7fbff}
+.option.selected{border-color:var(--blue);background:#eaf4ff;box-shadow:0 0 0 2px rgba(40,120,212,.12)}
+.option .letter{font-weight:800;color:var(--blue);margin-right:9px}
+.reading{background:#f8fafc;border-left:4px solid var(--blue);padding:17px;border-radius:10px;margin-bottom:18px;line-height:1.65}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:24px}
+button{border:0;border-radius:12px;padding:13px 20px;font-size:1rem;font-weight:700;cursor:pointer}
+.primary{background:var(--blue);color:#fff}.secondary{background:#eef2f6;color:var(--navy)}
+.primary:hover{filter:brightness(.96)}
+.error{color:var(--red);font-weight:600;margin-top:10px;display:none}
+.results{text-align:center}.level{font-size:2.1rem;color:var(--navy);margin:10px 0}
+.level-desc{max-width:650px;margin:0 auto 22px;line-height:1.6;color:#4b5563}
+.score-circle{width:125px;height:125px;border-radius:50%;border:9px solid #dbeafe;display:flex;flex-direction:column;justify-content:center;align-items:center;margin:20px auto}
+.score-circle strong{font-size:2rem;color:var(--navy)}
+.breakdown{display:grid;gap:12px;text-align:left;margin:25px 0}
+.row{background:#f8fafc;padding:14px;border-radius:12px}
+.row-head{display:flex;justify-content:space-between;font-weight:700;margin-bottom:7px}
+.bar{height:8px;background:#e5e7eb;border-radius:99px;overflow:hidden}.fill{height:100%;background:var(--blue)}
+.teacher-box{background:#fff8eb;border:1px solid #f2d39b;padding:18px;border-radius:14px;text-align:left;margin-top:20px}
+.teacher-box h3{color:#9a5a00;margin-bottom:8px}
+.small{font-size:.86rem;color:var(--muted);line-height:1.5}
+.hidden{display:none}
+@media(max-width:600px){body{padding:8px}main{padding:20px}header{padding:24px}.question{font-size:1.12rem}.nav button{width:48%}}
+</style>
 </head>
 <body>
-
-    <div class="quiz-container" id="quizContainer">
-        <!-- ===== WELCOME SCREEN ===== -->
-        <div id="welcomeScreen">
-            <div class="welcome-content">
-                <div class="logo-badge">📊</div>
-                <h1>🎯 English Level Test</h1>
-                <p class="subtitle">Find your English level in 15 minutes</p>
-
-                <div class="info-cards">
-                    <span class="info-card">📖 Reading</span>
-                    <span class="info-card">📝 Grammar</span>
-                    <span class="info-card">🔤 Vocabulary</span>
-                    <span class="info-card level-badge">🏆 50 Questions</span>
-                </div>
-
-                <div class="test-info">
-                    <h3>📋 What to expect:</h3>
-                    <ul>
-                        <li><strong>Part 1:</strong> Grammar (20 questions) - Verb tenses, prepositions, word order</li>
-                        <li><strong>Part 2:</strong> Vocabulary (20 questions) - Word meaning, synonyms, collocations</li>
-                        <li><strong>Part 3:</strong> Reading (10 questions) - Comprehension and understanding</li>
-                        <li><strong>⏱️</strong> Takes about 15-20 minutes to complete</li>
-                        <li><strong>📱</strong> Results sent automatically to your teacher via WhatsApp</li>
-                    </ul>
-                </div>
-
-                <div class="student-form">
-                    <div class="input-group">
-                        <span class="input-icon">👤</span>
-                        <input type="text" id="studentName" placeholder="Your Full Name" class="fancy-input" autocomplete="name">
-                    </div>
-                    <div class="input-group">
-                        <span class="input-icon">📚</span>
-                        <input type="text" id="studentClass" placeholder="Class / Level (e.g., Beginner, Elementary...)" class="fancy-input">
-                    </div>
-                    <button id="startQuizBtn" class="btn-primary">🚀 Start Test</button>
-                </div>
-
-                <div class="social-links">
-                    <span class="social-label">🌐 Connect with us</span>
-                    <div class="social-icons">
-                        <a href="#" class="social-icon whatsapp" target="_blank">💬 WhatsApp</a>
-                        <a href="#" class="social-icon" target="_blank">✈️ Telegram</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ===== QUIZ SCREEN ===== -->
-        <div id="quizScreen" style="display: none;">
-            <div class="quiz-header">
-                <div class="student-badge">
-                    <span id="displayName">👤 Student</span>
-                </div>
-                <div class="student-badge">
-                    <span id="displayPart">📖 Part 1</span>
-                </div>
-            </div>
-
-            <div class="progress-bar-container">
-                <div class="progress-bar-fill" id="progressBarFill"></div>
-                <span class="progress-text" id="progressText">0 / 0</span>
-            </div>
-
-            <div class="question-type" id="questionType">📖 Grammar</div>
-
-            <div class="question-card">
-                <div class="question-number" id="questionNumber">Question 1</div>
-                <div class="question-text" id="questionText">Loading...</div>
-            </div>
-
-            <div class="options-grid" id="optionsContainer">
-                <!-- Options will be added by JavaScript -->
-            </div>
-
-            <div class="progress-note" id="progressNote">Question 1 of 50</div>
-
-            <div class="nav-buttons">
-                <button id="prevBtn" class="btn-nav btn-prev" style="display: none;">◀ Previous</button>
-                <button id="submitBtn" class="btn-nav btn-submit">📬 Submit</button>
-                <button id="nextBtn" class="btn-nav btn-next">Next ▶</button>
-            </div>
-        </div>
-
-        <!-- ===== RESULTS SCREEN ===== -->
-        <div id="resultsScreen" style="display: none;">
-            <div class="results-content">
-                <div class="results-icon" id="resultEmoji">🎉</div>
-                <h1 class="results-title" id="resultTitle">Your Results</h1>
-
-                <div class="level-result-box" id="levelResultBox">
-                    <h2 id="levelDisplay">🔍 Determining Level...</h2>
-                    <div class="level-sub" id="levelSub">Based on your score</div>
-                    <div class="level-recommendation" id="levelRecommendation">📘 Start with: <strong>English File Elementary</strong></div>
-                </div>
-
-                <div class="results-score">
-                    <span class="score-number" id="scoreNumber">0</span>
-                    <span class="score-total">/ <span id="totalQuestions">50</span></span>
-                    <span style="font-size:1.5rem; font-weight:700; color:#6c757d; margin-left:10px;" id="percentageDisplay">0%</span>
-                </div>
-
-                <div class="part-breakdown">
-                    <div class="part-score">
-                        <div class="part-name">📖 Grammar</div>
-                        <div class="part-value" id="grammarScore">0/20</div>
-                        <div class="breakdown-bar"><div class="fill green" id="grammarBar" style="width:0%"></div></div>
-                    </div>
-                    <div class="part-score">
-                        <div class="part-name">🔤 Vocabulary</div>
-                        <div class="part-value" id="vocabScore">0/20</div>
-                        <div class="breakdown-bar"><div class="fill orange" id="vocabBar" style="width:0%"></div></div>
-                    </div>
-                    <div class="part-score">
-                        <div class="part-name">📖 Reading</div>
-                        <div class="part-value" id="readingScore">0/10</div>
-                        <div class="breakdown-bar"><div class="fill red" id="readingBar" style="width:0%"></div></div>
-                    </div>
-                </div>
-
-                <div class="results-detail">
-                    <div class="result-stat">
-                        <span class="stat-label">✅ Correct</span>
-                        <span class="stat-value high" id="correctCount">0</span>
-                    </div>
-                    <div class="result-stat">
-                        <span class="stat-label">❌ Wrong</span>
-                        <span class="stat-value low" id="wrongCount">0</span>
-                    </div>
-                    <div class="result-stat">
-                        <span class="stat-label">📊 Score</span>
-                        <span class="stat-value medium" id="percentageValue">0%</span>
-                    </div>
-                    <div class="result-stat">
-                        <span class="stat-label">🏆 Level</span>
-                        <span class="stat-value" id="levelBadge" style="font-size:1.2rem;">-</span>
-                    </div>
-                </div>
-
-                <p class="results-message" id="resultMessage">Keep going!</p>
-
-                <button id="retryBtn" class="btn-primary">🔄 Retake Test</button>
-
-                <div class="auto-send-notice" id="autoSendNotice">
-                    📱 Click below to send your results to your teacher!
-                </div>
-
-                <button id="sendWhatsAppBtn" class="whatsapp-test-btn">
-                    💬 Send Results to Teacher via WhatsApp
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ============================================================ -->
-    <!-- JAVASCRIPT                                                   -->
-    <!-- ============================================================ -->
-    <script>
-        // ============================================================
-        // ⚙️ CONFIGURATION - CHANGE THIS TO YOUR PHONE NUMBER
-        // Format: country code + number (no +, no spaces)
-        // Example: 1234567890
-        // ============================================================
-        var YOUR_PHONE_NUMBER = '963956323557';
-
-        // ============================================================
-        // 📝 COMPLETE 50-QUESTION DIAGNOSTIC TEST
-        // Based on English File placement criteria
-        // ============================================================
-        var allQuestions = [
-
-            // ===== PART 1: GRAMMAR (20 questions) =====
-            // Beginner Level (Q1-5)
-            { part: "Grammar", question: "I ___ a student.", options: ["am", "is", "are", "be"], correct: 0, difficulty: 1 },
-            { part: "Grammar", question: "She ___ to school every day.", options: ["go", "goes", "going", "went"], correct: 1, difficulty: 1 },
-            { part: "Grammar", question: "We ___ playing football now.", options: ["is", "am", "are", "be"], correct: 2, difficulty: 1 },
-            { part: "Grammar", question: "___ you like coffee?", options: ["Does", "Do", "Is", "Are"], correct: 1, difficulty: 1 },
-            { part: "Grammar", question: "My brother ___ a new car yesterday.", options: ["buy", "buys", "bought", "buying"], correct: 2, difficulty: 1 },
-
-            // Elementary Level (Q6-10)
-            { part: "Grammar", question: "I ___ to the cinema last night.", options: ["go", "went", "gone", "going"], correct: 1, difficulty: 2 },
-            { part: "Grammar", question: "She is ___ than me.", options: ["tall", "taller", "tallest", "more tall"], correct: 1, difficulty: 2 },
-            { part: "Grammar", question: "They ___ not at home yesterday.", options: ["was", "were", "are", "is"], correct: 1, difficulty: 2 },
-            { part: "Grammar", question: "I have ___ finished my homework.", options: ["just", "yet", "already", "still"], correct: 2, difficulty: 2 },
-            { part: "Grammar", question: "We ___ to the party next week.", options: ["go", "will go", "went", "are going"], correct: 3, difficulty: 2 },
-
-            // Pre-Intermediate Level (Q11-15)
-            { part: "Grammar", question: "If I ___ rich, I would travel the world.", options: ["am", "was", "were", "be"], correct: 2, difficulty: 3 },
-            { part: "Grammar", question: "She ___ working here for 5 years.", options: ["has been", "have been", "is", "was"], correct: 0, difficulty: 3 },
-            { part: "Grammar", question: "The film ___ already started when we arrived.", options: ["has", "had", "have", "was"], correct: 1, difficulty: 3 },
-            { part: "Grammar", question: "You ___ smoke in here. It's forbidden.", options: ["mustn't", "don't have to", "needn't", "couldn't"], correct: 0, difficulty: 3 },
-            { part: "Grammar", question: "She asked me where I ___.", options: ["live", "lived", "am living", "was live"], correct: 1, difficulty: 3 },
-
-            // Intermediate Level (Q16-20)
-            { part: "Grammar", question: "Had I known, I ___ come earlier.", options: ["would have", "would had", "will have", "have"], correct: 0, difficulty: 4 },
-            { part: "Grammar", question: "It's time we ___ going home.", options: ["start", "started", "will start", "should start"], correct: 1, difficulty: 4 },
-            { part: "Grammar", question: "Not only ___ late, but he also forgot his keys.", options: ["he was", "was he", "he is", "is he"], correct: 1, difficulty: 4 },
-            { part: "Grammar", question: "I wish I ___ speak French.", options: ["can", "could", "will", "would"], correct: 1, difficulty: 4 },
-            { part: "Grammar", question: "By next year, I ___ here for a decade.", options: ["will work", "will have worked", "will be working", "have worked"], correct: 1, difficulty: 4 },
-
-            // ===== PART 2: VOCABULARY (20 questions) =====
-            // Beginner (Q21-25)
-            { part: "Vocabulary", question: "What is the opposite of 'big'?", options: ["Large", "Small", "Tall", "Wide"], correct: 1, difficulty: 1 },
-            { part: "Vocabulary", question: "What is the plural of 'child'?", options: ["Childs", "Children", "Childes", "Childrens"], correct: 1, difficulty: 1 },
-            { part: "Vocabulary", question: "Which of these is a fruit?", options: ["Carrot", "Apple", "Bread", "Milk"], correct: 1, difficulty: 1 },
-            { part: "Vocabulary", question: "What is the past tense of 'eat'?", options: ["Eated", "Ate", "Eaten", "Eating"], correct: 1, difficulty: 1 },
-            { part: "Vocabulary", question: "What is the opposite of 'hot'?", options: ["Warm", "Cold", "Cool", "Freezing"], correct: 1, difficulty: 1 },
-
-            // Elementary (Q26-30)
-            { part: "Vocabulary", question: "What is the synonym of 'happy'?", options: ["Sad", "Angry", "Joyful", "Tired"], correct: 2, difficulty: 2 },
-            { part: "Vocabulary", question: "What is the plural of 'mouse'?", options: ["Mouses", "Mice", "Mices", "Mousies"], correct: 1, difficulty: 2 },
-            { part: "Vocabulary", question: "Which of these is a vegetable?", options: ["Apple", "Carrot", "Banana", "Grape"], correct: 1, difficulty: 2 },
-            { part: "Vocabulary", question: "What is the opposite of 'fast'?", options: ["Quick", "Slow", "Rapid", "Swift"], correct: 1, difficulty: 2 },
-            { part: "Vocabulary", question: "What is the past tense of 'go'?", options: ["Goed", "Went", "Gone", "Going"], correct: 1, difficulty: 2 },
-
-            // Pre-Intermediate (Q31-35)
-            { part: "Vocabulary", question: "What does 'expensive' mean?", options: ["Cheap", "Costly", "Free", "Low price"], correct: 1, difficulty: 3 },
-            { part: "Vocabulary", question: "What is the synonym of 'ancient'?", options: ["New", "Old", "Modern", "Fresh"], correct: 1, difficulty: 3 },
-            { part: "Vocabulary", question: "Which word means 'to look at something for a long time'?", options: ["Watch", "Stare", "Peek", "Glance"], correct: 1, difficulty: 3 },
-            { part: "Vocabulary", question: "What is the opposite of 'brave'?", options: ["Fearless", "Cowardly", "Bold", "Strong"], correct: 1, difficulty: 3 },
-            { part: "Vocabulary", question: "Which word means 'to make something smaller'?", options: ["Expand", "Reduce", "Increase", "Grow"], correct: 1, difficulty: 3 },
-
-            // Intermediate (Q36-40)
-            { part: "Vocabulary", question: "What is the meaning of 'diligent'?", options: ["Lazy", "Hard-working", "Careless", "Slow"], correct: 1, difficulty: 4 },
-            { part: "Vocabulary", question: "Which word is a synonym of 'abandon'?", options: ["Keep", "Forsake", "Save", "Retain"], correct: 1, difficulty: 4 },
-            { part: "Vocabulary", question: "What does 'frugal' mean?", options: ["Wasteful", "Economical", "Generous", "Lavish"], correct: 1, difficulty: 4 },
-            { part: "Vocabulary", question: "The opposite of 'permanent' is ___?", options: ["Temporary", "Eternal", "Forever", "Lasting"], correct: 0, difficulty: 4 },
-            { part: "Vocabulary", question: "What does 'innovative' mean?", options: ["Old-fashioned", "Creative", "Common", "Traditional"], correct: 1, difficulty: 4 },
-
-            // ===== PART 3: READING COMPREHENSION (10 questions) =====
-            // Beginner (Q41-42)
-            { part: "Reading", question: "Sarah has a black cat. What color is Sarah's cat?", options: ["White", "Black", "Brown", "Gray"], correct: 1, difficulty: 1 },
-            { part: "Reading", question: "Tom goes to school every day. Where does Tom go?", options: ["Park", "School", "Store", "Home"], correct: 1, difficulty: 1 },
-
-            // Elementary (Q43-45)
-            { part: "Reading", question: "Anna has a red dress and a blue hat. She wears them to the party. What does Anna wear to the party?", options: ["Red dress and blue hat", "Blue dress and red hat", "Red dress only", "Blue hat only"], correct: 0, difficulty: 2 },
-            { part: "Reading", question: "The store opens at 9 AM and closes at 9 PM. It is now 10 AM. Is the store open?", options: ["Yes", "No", "Maybe", "Not sure"], correct: 0, difficulty: 2 },
-            { part: "Reading", question: "There are 12 students in the class. 5 are boys. How many girls are there?", options: ["5", "7", "8", "10"], correct: 1, difficulty: 2 },
-
-            // Pre-Intermediate (Q46-48)
-            { part: "Reading", question: "John works in an office. He starts at 8 AM and finishes at 5 PM. He takes a one-hour lunch break. How many hours does John actually work each day?", options: ["8 hours", "9 hours", "7 hours", "10 hours"], correct: 0, difficulty: 3 },
-            { part: "Reading", question: "The museum is free on Mondays. It costs $10 on other days. Today is Tuesday. How much does it cost to enter?", options: ["Free", "$5", "$10", "$20"], correct: 2, difficulty: 3 },
-            { part: "Reading", question: "Emma bought 3 apples for $1 each and 2 bananas for $0.50 each. How much did she spend in total?", options: ["$3", "$4", "$5", "$6"], correct: 1, difficulty: 3 },
-
-            // Intermediate (Q49-50)
-            { part: "Reading", question: "A train leaves the station at 8:15 AM and arrives at 10:45 AM. The train makes a 15-minute stop in the middle. How long is the journey without the stop?", options: ["2 hours 15 min", "2 hours 30 min", "2 hours", "2 hours 45 min"], correct: 0, difficulty: 4 },
-            { part: "Reading", question: "In a survey, 40% of people preferred tea, 35% preferred coffee, and the rest preferred juice. If 100 people were surveyed, how many preferred juice?", options: ["15", "25", "35", "40"], correct: 1, difficulty: 4 }
-        ];
-
-        // ============================================================
-        // STATE
-        // ============================================================
-        var questions = [];
-        var currentQuestion = 0;
-        var userAnswers = [];
-        var studentName = '';
-        var studentClass = '';
-
-        // ============================================================
-        // DOM ELEMENTS
-        // ============================================================
-        var welcomeScreen = document.getElementById('welcomeScreen');
-        var quizScreen = document.getElementById('quizScreen');
-        var resultsScreen = document.getElementById('resultsScreen');
-        var studentNameInput = document.getElementById('studentName');
-        var studentClassInput = document.getElementById('studentClass');
-        var startBtn = document.getElementById('startQuizBtn');
-
-        var displayName = document.getElementById('displayName');
-        var displayPart = document.getElementById('displayPart');
-        var progressBarFill = document.getElementById('progressBarFill');
-        var progressText = document.getElementById('progressText');
-        var questionType = document.getElementById('questionType');
-        var questionNumber = document.getElementById('questionNumber');
-        var questionText = document.getElementById('questionText');
-        var optionsContainer = document.getElementById('optionsContainer');
-        var prevBtn = document.getElementById('prevBtn');
-        var nextBtn = document.getElementById('nextBtn');
-        var submitBtn = document.getElementById('submitBtn');
-        var progressNote = document.getElementById('progressNote');
-
-        var resultEmoji = document.getElementById('resultEmoji');
-        var resultTitle = document.getElementById('resultTitle');
-        var scoreNumber = document.getElementById('scoreNumber');
-        var totalQuestions = document.getElementById('totalQuestions');
-        var correctCount = document.getElementById('correctCount');
-        var wrongCount = document.getElementById('wrongCount');
-        var percentageValue = document.getElementById('percentageValue');
-        var percentageDisplay = document.getElementById('percentageDisplay');
-        var resultMessage = document.getElementById('resultMessage');
-        var retryBtn = document.getElementById('retryBtn');
-        var autoSendNotice = document.getElementById('autoSendNotice');
-        var sendWhatsAppBtn = document.getElementById('sendWhatsAppBtn');
-
-        // Level elements
-        var levelDisplay = document.getElementById('levelDisplay');
-        var levelSub = document.getElementById('levelSub');
-        var levelRecommendation = document.getElementById('levelRecommendation');
-        var levelBadge = document.getElementById('levelBadge');
-
-        // Part breakdown
-        var grammarScore = document.getElementById('grammarScore');
-        var vocabScore = document.getElementById('vocabScore');
-        var readingScore = document.getElementById('readingScore');
-        var grammarBar = document.getElementById('grammarBar');
-        var vocabBar = document.getElementById('vocabBar');
-        var readingBar = document.getElementById('readingBar');
-
-        // ============================================================
-        // START QUIZ
-        // ============================================================
-        startBtn.addEventListener('click', function() {
-            studentName = studentNameInput.value.trim();
-            studentClass = studentClassInput.value.trim();
-
-            if (studentName === '' || studentClass === '') {
-                alert('⚠️ Please enter your name and class!');
-                return;
-            }
-
-            questions = allQuestions.slice();
-            userAnswers = new Array(questions.length).fill(null);
-            currentQuestion = 0;
-
-            displayName.textContent = '👤 ' + studentName;
-
-            welcomeScreen.style.display = 'none';
-            quizScreen.style.display = 'block';
-            resultsScreen.style.display = 'none';
-
-            renderQuestion();
-        });
-
-        // ============================================================
-        // RENDER QUESTION
-        // ============================================================
-        function renderQuestion() {
-            var q = questions[currentQuestion];
-            var total = questions.length;
-            var partNames = ['Grammar', 'Vocabulary', 'Reading'];
-            var partColors = ['📖', '🔤', '📖'];
-
-            // Find which part we're in
-            var partIndex = partNames.indexOf(q.part);
-            var partDisplay = partColors[partIndex] + ' ' + q.part;
-
-            displayPart.textContent = partDisplay;
-            questionType.textContent = q.part;
-
-            var progress = ((currentQuestion + 1) / total) * 100;
-            progressBarFill.style.width = progress + '%';
-            progressText.textContent = (currentQuestion + 1) + ' / ' + total;
-            progressNote.textContent = 'Question ' + (currentQuestion + 1) + ' of ' + total;
-
-            questionNumber.textContent = 'Question ' + (currentQuestion + 1);
-            questionText.textContent = q.question;
-
-            optionsContainer.innerHTML = '';
-            var letters = ['A', 'B', 'C', 'D'];
-            for (var i = 0; i < q.options.length; i++) {
-                var btn = document.createElement('button');
-                btn.className = 'option-btn';
-                if (userAnswers[currentQuestion] === i) {
-                    btn.classList.add('selected');
-                }
-                btn.innerHTML = '<span class="option-letter">' + letters[i] + '</span><span>' + q.options[i] + '</span>';
-                btn.setAttribute('data-index', i);
-                btn.addEventListener('click', function() {
-                    var index = parseInt(this.getAttribute('data-index'));
-                    selectOption(index);
-                });
-                optionsContainer.appendChild(btn);
-            }
-
-            prevBtn.style.display = (currentQuestion === 0) ? 'none' : 'block';
-
-            if (currentQuestion === total - 1) {
-                nextBtn.textContent = '🏁 Finish';
-            } else {
-                nextBtn.textContent = 'Next ▶';
-            }
-        }
-
-        // ============================================================
-        // SELECT OPTION
-        // ============================================================
-        function selectOption(index) {
-            userAnswers[currentQuestion] = index;
-
-            var buttons = optionsContainer.querySelectorAll('.option-btn');
-            for (var i = 0; i < buttons.length; i++) {
-                buttons[i].classList.remove('selected');
-                if (i === index) {
-                    buttons[i].classList.add('selected');
-                }
-            }
-        }
-
-        // ============================================================
-        // NAVIGATION
-        // ============================================================
-        prevBtn.addEventListener('click', function() {
-            if (currentQuestion > 0) {
-                currentQuestion--;
-                renderQuestion();
-            }
-        });
-
-        nextBtn.addEventListener('click', function() {
-            if (currentQuestion === questions.length - 1) {
-                submitQuiz();
-            } else {
-                currentQuestion++;
-                renderQuestion();
-            }
-        });
-
-        submitBtn.addEventListener('click', function() {
-            if (confirm('Are you sure you want to submit your quiz?')) {
-                submitQuiz();
-            }
-        });
-
-        // ============================================================
-        // SUBMIT QUIZ & DETERMINE LEVEL
-        // ============================================================
-        function submitQuiz() {
-            // Check for unanswered
-            var hasUnanswered = false;
-            for (var i = 0; i < userAnswers.length; i++) {
-                if (userAnswers[i] === null) {
-                    hasUnanswered = true;
-                    break;
-                }
-            }
-
-            if (hasUnanswered) {
-                if (!confirm('⚠️ You have ' + userAnswers.filter(a => a === null).length + ' unanswered questions. Submit anyway?')) {
-                    return;
-                }
-            }
-
-            // Calculate scores
-            var correct = 0;
-            var wrongQuestions = [];
-            var partScores = {
-                'Grammar': { correct: 0, total: 0 },
-                'Vocabulary': { correct: 0, total: 0 },
-                'Reading': { correct: 0, total: 0 }
-            };
-
-            for (var i = 0; i < questions.length; i++) {
-                var q = questions[i];
-                var part = q.part;
-                partScores[part].total++;
-
-                if (userAnswers[i] === q.correct) {
-                    correct++;
-                    partScores[part].correct++;
-                } else {
-                    wrongQuestions.push({
-                        number: i + 1,
-                        part: q.part,
-                        question: q.question,
-                        correct: q.options[q.correct],
-                        studentAnswer: userAnswers[i] !== null ? q.options[userAnswers[i]] : 'Not answered'
-                    });
-                }
-            }
-
-            var total = questions.length;
-            var wrong = total - correct;
-            var percentage = Math.round((correct / total) * 100);
-
-            // ============================================================
-            // 🏆 DETERMINE ENGLISH LEVEL
-            // ============================================================
-            var level = '';
-            var levelEmoji = '';
-            var levelDescription = '';
-            var recommendation = '';
-            var color = '';
-
-            if (percentage >= 80) {
-                level = 'Intermediate';
-                levelEmoji = '🌟';
-                levelDescription = 'You have a good command of English!';
-                recommendation = 'Start with English File Intermediate (B1)';
-                color = '#28a745';
-            } else if (percentage >= 60) {
-                level = 'Pre-Intermediate';
-                levelEmoji = '📈';
-                levelDescription = 'You can communicate in everyday situations.';
-                recommendation = 'Start with English File Pre-Intermediate (A2-B1)';
-                color = '#f7971e';
-            } else if (percentage >= 40) {
-                level = 'Elementary';
-                levelEmoji = '📖';
-                levelDescription = 'You know the basics and can understand simple texts.';
-                recommendation = 'Start with English File Elementary (A1-A2)';
-                color = '#ff6b6b';
-            } else {
-                level = 'Beginner';
-                levelEmoji = '🌱';
-                levelDescription = 'You are just starting your English journey.';
-                recommendation = 'Start with English File Beginner (A1)';
-                color = '#4a6fa5';
-            }
-
-            // ============================================================
-            // SHOW RESULTS
-            // ============================================================
-            quizScreen.style.display = 'none';
-            resultsScreen.style.display = 'block';
-
-            totalQuestions.textContent = total;
-            scoreNumber.textContent = correct;
-            correctCount.textContent = correct;
-            wrongCount.textContent = wrong;
-            percentageValue.textContent = percentage + '%';
-            percentageDisplay.textContent = percentage + '%';
-
-            // Level display
-            levelDisplay.textContent = levelEmoji + ' ' + level;
-            levelDisplay.style.color = color;
-            levelSub.textContent = levelDescription + ' (Score: ' + percentage + '%)';
-            levelRecommendation.innerHTML = '📘 ' + recommendation;
-            levelBadge.textContent = level;
-            levelBadge.style.color = color;
-
-            // Part breakdown
-            var gTotal = partScores['Grammar'].total || 1;
-            var vTotal = partScores['Vocabulary'].total || 1;
-            var rTotal = partScores['Reading'].total || 1;
-
-            grammarScore.textContent = partScores['Grammar'].correct + '/' + partScores['Grammar'].total;
-            vocabScore.textContent = partScores['Vocabulary'].correct + '/' + partScores['Vocabulary'].total;
-            readingScore.textContent = partScores['Reading'].correct + '/' + partScores['Reading'].total;
-
-            grammarBar.style.width = ((partScores['Grammar'].correct / gTotal) * 100) + '%';
-            vocabBar.style.width = ((partScores['Vocabulary'].correct / vTotal) * 100) + '%';
-            readingBar.style.width = ((partScores['Reading'].correct / rTotal) * 100) + '%';
-
-            // Emoji and message
-            var emoji, title, msg;
-            if (percentage >= 80) {
-                emoji = '🏆';
-                title = 'Excellent!';
-                msg = 'You are ready for Intermediate level! Keep up the great work!';
-            } else if (percentage >= 60) {
-                emoji = '🎉';
-                title = 'Good Job!';
-                msg = 'You have a solid foundation. Let\'s build on it!';
-            } else if (percentage >= 40) {
-                emoji = '💪';
-                title = 'Keep Going!';
-                msg = 'You know the basics. With practice, you\'ll improve quickly!';
-            } else {
-                emoji = '🌱';
-                title = 'Everybody Starts Somewhere!';
-                msg = 'Don\'t worry! We\'ll start from the beginning and build your skills.';
-            }
-
-            resultEmoji.textContent = emoji;
-            resultTitle.textContent = title;
-            resultMessage.textContent = msg;
-
-            // ============================================================
-            // WHATSAPP RESULT MESSAGE
-            // ============================================================
-            var message = '📊 *English Level Test Results* 📊\n';
-            message += '━━━━━━━━━━━━━━━━━━\n';
-            message += '👤 Student: ' + studentName + '\n';
-            message += '📚 Class: ' + studentClass + '\n';
-            message += '━━━━━━━━━━━━━━━━━━\n';
-            message += '🏆 *Level: ' + level + '*\n';
-            message += '📈 Score: ' + percentage + '% (' + correct + '/' + total + ')\n';
-            message += '━━━━━━━━━━━━━━━━━━\n';
-            message += '📖 *Grammar:* ' + partScores['Grammar'].correct + '/' + partScores['Grammar'].total + '\n';
-            message += '🔤 *Vocabulary:* ' + partScores['Vocabulary'].correct + '/' + partScores['Vocabulary'].total + '\n';
-            message += '📖 *Reading:* ' + partScores['Reading'].correct + '/' + partScores['Reading'].total + '\n';
-            message += '━━━━━━━━━━━━━━━━━━\n';
-            message += '📘 *Recommendation:* ' + recommendation + '\n';
-            message += '━━━━━━━━━━━━━━━━━━\n\n';
-
-            if (wrongQuestions.length > 0) {
-                message += '❌ *Questions to Review:*\n';
-                var showWrong = wrongQuestions.slice(0, 10);
-                for (var i = 0; i < showWrong.length; i++) {
-                    message += '\n' + showWrong[i].number + '. [' + showWrong[i].part + '] ' + showWrong[i].question + '\n';
-                    message += '   ✅ Correct: ' + showWrong[i].correct + '\n';
-                    message += '   ❌ Your answer: ' + showWrong[i].studentAnswer + '\n';
-                }
-                if (wrongQuestions.length > 10) {
-                    message += '\n... and ' + (wrongQuestions.length - 10) + ' more mistakes to review.';
-                }
-            } else {
-                message += '🎉 *PERFECT SCORE! Amazing work!* 🎉';
-            }
-
-            var encodedMessage = encodeURIComponent(message);
-            var whatsappUrl = 'https://wa.me/' + YOUR_PHONE_NUMBER + '?text=' + encodedMessage;
-
-            // ============================================================
-            // SETUP WHATSAPP BUTTON
-            // ============================================================
-            autoSendNotice.textContent = '📱 Click the button below to send results to your teacher!';
-
-            var newBtn = sendWhatsAppBtn.cloneNode(true);
-            sendWhatsAppBtn.parentNode.replaceChild(newBtn, sendWhatsAppBtn);
-
-            newBtn.addEventListener('click', function() {
-                window.open(whatsappUrl, '_blank');
-                this.innerHTML = '✅ Sent! Check your WhatsApp';
-                this.style.background = '#28a745';
-            });
-
-            // Auto-open WhatsApp
-            setTimeout(function() {
-                window.open(whatsappUrl, '_blank');
-            }, 800);
-        }
-
-        // ============================================================
-        // RETRY
-        // ============================================================
-        retryBtn.addEventListener('click', function() {
-            resultsScreen.style.display = 'none';
-            welcomeScreen.style.display = 'block';
-            studentNameInput.value = studentName;
-            studentClassInput.value = studentClass;
-        });
-
-        // ============================================================
-        // KEYBOARD SHORTCUTS
-        // ============================================================
-        document.addEventListener('keydown', function(e) {
-            var isQuizVisible = quizScreen.style.display === 'block';
-            var isResultsVisible = resultsScreen.style.display === 'block';
-
-            if (!isQuizVisible || isResultsVisible) return;
-
-            if (e.key === 'ArrowRight' || e.key === ' ') {
-                e.preventDefault();
-                nextBtn.click();
-            } else if (e.key === 'ArrowLeft') {
-                e.preventDefault();
-                if (currentQuestion > 0) prevBtn.click();
-            } else if (e.key >= '1' && e.key <= '4') {
-                var index = parseInt(e.key) - 1;
-                var btns = optionsContainer.querySelectorAll('.option-btn');
-                if (btns[index]) btns[index].click();
-            }
-        });
-
-        console.log('✅ English Level Test loaded!');
-        console.log('📚 Total questions: ' + allQuestions.length);
-        console.log('📱 Results will be sent to: +' + YOUR_PHONE_NUMBER);
-        console.log('🏆 Levels: Beginner → Elementary → Pre-Intermediate → Intermediate');
-    </script>
-
+<div class="container">
+<header>
+<h1>🌟 Young Learner English Placement Test</h1>
+<p>A child-friendly diagnostic from Pre-A1 through A2, with a small B1 ceiling.</p>
+<div class="badges">
+<span class="badge">🧩 Grammar</span><span class="badge">🔤 Vocabulary</span>
+<span class="badge">📖 Reading</span><span class="badge">⏱️ About 20–25 min</span>
+</div>
+</header>
+
+<main>
+<section id="start" class="screen active">
+<h2>Welcome!</h2>
+<p class="intro">This test helps your teacher choose the right starting point. There are no grades and no need to worry about difficult questions. Answer by yourself, and choose the answer that feels correct.</p>
+<div class="info-grid">
+<div class="info"><strong>40</strong>Questions</div>
+<div class="info"><strong>20–25 min</strong>Approx. time</div>
+<div class="info"><strong>Pre-A1 → A2+</strong>Placement range</div>
+</div>
+<label for="studentName">Student's name</label>
+<input id="studentName" placeholder="Enter your name">
+<label for="studentAge">Age</label>
+<input id="studentAge" type="number" min="5" max="18" placeholder="e.g. 10">
+<label for="studentClass">School year / class <span class="small">(optional)</span></label>
+<input id="studentClass" placeholder="e.g. Grade 4">
+<p id="startError" class="error">Please enter the student's name and age.</p>
+<div class="nav"><span></span><button class="primary" onclick="beginTest()">Start Test →</button></div>
+</section>
+
+<section id="quiz" class="screen">
+<div class="topbar"><div class="progress-wrap"><div id="progress" class="progress"></div></div><div id="progressText" class="progress-text">1 / 40</div></div>
+<div id="sectionTag" class="section-tag"></div>
+<div id="readingBox" class="reading hidden"></div>
+<div id="questionText" class="question"></div>
+<div id="options" class="options"></div>
+<p id="answerError" class="error">Please choose an answer before continuing.</p>
+<div class="nav">
+<button id="prevBtn" class="secondary" onclick="previousQuestion()">← Back</button>
+<button id="nextBtn" class="primary" onclick="nextQuestion()">Next →</button>
+</div>
+</section>
+
+<section id="results" class="screen results">
+<div style="font-size:3rem">🎉</div>
+<h2>Placement Result</h2>
+<div id="level" class="level"></div>
+<p id="levelDesc" class="level-desc"></p>
+<div class="score-circle"><strong id="score">0%</strong><span id="scoreFraction" class="small"></span></div>
+<div id="breakdown" class="breakdown"></div>
+<div class="teacher-box">
+<h3>👩‍🏫 Teacher's interpretation</h3>
+<p id="teacherNote"></p>
+<p class="small" style="margin-top:8px">Important: this is a diagnostic placement tool, not an externally standardized CEFR examination. For final placement, complete the short speaking check below.</p>
+</div>
+<div class="teacher-box" style="margin-top:14px;background:#f3f8ff;border-color:#cfe1f7">
+<h3 style="color:#1764ad">🗣️ 5-minute speaking check</h3>
+<p id="speakingCheck" style="line-height:1.65"></p>
+</div>
+<div class="nav" style="justify-content:center;margin-top:24px">
+<button class="primary" onclick="sendWhatsApp()">📱 Send Results to Teacher</button>
+<button class="secondary" onclick="location.reload()">↻ Take Again</button>
+</div>
+<p class="small" style="margin-top:14px">If WhatsApp does not open automatically, use the button above after replacing the teacher number in the code.</p>
+</section>
+</main>
+</div>
+
+<script>
+/*
+  ==========================================================
+  YOUNG LEARNER ENGLISH PLACEMENT TEST
+  Designed for approximate Pre-A1 → A2, with a small B1 ceiling.
+  40 scored MCQs + recommended 5-minute speaking check.
+  ==========================================================
+  IMPORTANT:
+  Replace TEACHER_PHONE below with your WhatsApp number.
+  Use international format WITHOUT +, spaces, or dashes.
+*/
+const TEACHER_PHONE = "REPLACE_WITH_YOUR_WHATSAPP_NUMBER";
+
+const questions = [
+/* ---------- BASIC / PRE-A1 ---------- */
+{section:"Basic English",difficulty:"Pre-A1",q:"My name ___ Adam.",o:["am","is","are","be"],a:1},
+{section:"Basic English",difficulty:"Pre-A1",q:"I have two ___.",o:["brother","brothers","brotheres","brother's"],a:1},
+{section:"Basic English",difficulty:"Pre-A1",q:"This is ___ apple.",o:["a","an","some","are"],a:1},
+{section:"Basic English",difficulty:"Pre-A1",q:"___ you happy today?",o:["Are","Is","Do","Does"],a:0},
+{section:"Basic English",difficulty:"Pre-A1",q:"There ___ three books on the table.",o:["is","are","am","be"],a:1},
+{section:"Basic English",difficulty:"Pre-A1",q:"What color is grass usually?",o:["Blue","Green","Pink","Purple"],a:1},
+{section:"Basic English",difficulty:"Pre-A1",q:"Choose the opposite of 'big'.",o:["Small","Long","Fast","Young"],a:0},
+{section:"Basic English",difficulty:"Pre-A1",q:"Which one is a fruit?",o:["Carrot","Apple","Bread","Chicken"],a:1},
+
+/* ---------- A1 GRAMMAR ---------- */
+{section:"A1 Grammar",difficulty:"A1",q:"She ___ to school every day.",o:["go","goes","going","went"],a:1},
+{section:"A1 Grammar",difficulty:"A1",q:"We ___ TV at the moment.",o:["watch","watched","are watching","watches"],a:2},
+{section:"A1 Grammar",difficulty:"A1",q:"___ you like pizza?",o:["Do","Does","Are","Is"],a:0},
+{section:"A1 Grammar",difficulty:"A1",q:"Tom ___ play football on Sundays.",o:["don't","doesn't","isn't","not"],a:1},
+{section:"A1 Grammar",difficulty:"A1",q:"Yesterday, I ___ my grandmother.",o:["visit","visited","visiting","visits"],a:1},
+{section:"A1 Grammar",difficulty:"A1",q:"Look! The dog ___ in the garden.",o:["runs","ran","is running","run"],a:2},
+{section:"A1 Grammar",difficulty:"A1",q:"My birthday is ___ May.",o:["at","on","in","from"],a:2},
+{section:"A1 Grammar",difficulty:"A1",q:"There isn't ___ milk in the fridge.",o:["many","a","any","an"],a:2},
+
+/* ---------- A2 GRAMMAR ---------- */
+{section:"A2 Grammar",difficulty:"A2",q:"I ___ never been to London.",o:["have","has","am","did"],a:0},
+{section:"A2 Grammar",difficulty:"A2",q:"She has lived here ___ 2022.",o:["for","since","from","during"],a:1},
+{section:"A2 Grammar",difficulty:"A2",q:"We ___ go to the park if it doesn't rain.",o:["will","would","did","are"],a:0},
+{section:"A2 Grammar",difficulty:"A2",q:"You ___ wear a seat belt in a car.",o:["must","might","couldn't","would"],a:0},
+{section:"A2 Grammar",difficulty:"A2",q:"This book is ___ than that one.",o:["interesting","more interesting","most interesting","interest"],a:1},
+{section:"A2 Grammar",difficulty:"A2",q:"What ___ you doing when I called?",o:["are","were","did","have"],a:1},
+{section:"A2 Grammar",difficulty:"A2",q:"I think my team ___ win tomorrow.",o:["will","has","was","did"],a:0},
+{section:"A2 Grammar",difficulty:"A2",q:"If I have time tonight, I ___ my homework.",o:["do","did","will do","would do"],a:2},
+
+/* ---------- VOCABULARY ---------- */
+{section:"Vocabulary",difficulty:"A1",q:"Mia is very tired. She wants to ___.",o:["sleep","swim","shout","draw"],a:0},
+{section:"Vocabulary",difficulty:"A1",q:"You use your ___ to see.",o:["ears","eyes","hands","feet"],a:1},
+{section:"Vocabulary",difficulty:"A1",q:"A person who teaches students is a ___.",o:["doctor","teacher","pilot","farmer"],a:1},
+{section:"Vocabulary",difficulty:"A1",q:"The opposite of 'cheap' is ___.",o:["easy","expensive","small","empty"],a:1},
+{section:"Vocabulary",difficulty:"A2",q:"If you are hungry, you probably want to ___.",o:["eat","sleep","run","study"],a:0},
+{section:"Vocabulary",difficulty:"A2",q:"Which word means 'very happy'?",o:["excited","worried","angry","bored"],a:0},
+{section:"Vocabulary",difficulty:"A2",q:"Please be quiet. The baby is ___.",o:["sleeping","shouting","jumping","laughing"],a:0},
+{section:"Vocabulary",difficulty:"A2",q:"I forgot my umbrella, so I got ___ in the rain.",o:["wet","dry","warm","tall"],a:0},
+
+/* ---------- READING ---------- */
+{section:"Reading",difficulty:"A1",passage:"Lina is ten years old. She lives with her mother, father and little brother. She likes drawing and reading comic books. On Saturdays, she goes to the park with her brother.",q:"How old is Lina?",o:["Eight","Nine","Ten","Eleven"],a:2},
+{section:"Reading",difficulty:"A1",passage:"Lina is ten years old. She lives with her mother, father and little brother. She likes drawing and reading comic books. On Saturdays, she goes to the park with her brother.",q:"What does Lina like doing?",o:["Cooking and swimming","Drawing and reading","Playing tennis","Watching football"],a:1},
+{section:"Reading",difficulty:"A1",passage:"Lina is ten years old. She lives with her mother, father and little brother. She likes drawing and reading comic books. On Saturdays, she goes to the park with her brother.",q:"Who goes to the park with Lina?",o:["Her mother","Her father","Her friend","Her brother"],a:3},
+{section:"Reading",difficulty:"A2",passage:"Sam usually walks to school because it is close to his house. Last Monday, however, it rained heavily, so his father drove him. After school, Sam went to the library to return two books. He also chose a new book about space because he wants to learn more about planets.",q:"Why did Sam's father drive him to school?",o:["Sam was late.","The school was far away.","It rained heavily.","Sam was carrying books."],a:2},
+{section:"Reading",difficulty:"A2",passage:"Sam usually walks to school because it is close to his house. Last Monday, however, it rained heavily, so his father drove him. After school, Sam went to the library to return two books. He also chose a new book about space because he wants to learn more about planets.",q:"Why did Sam go to the library?",o:["To meet his father","To return two books","To play football","To study for a test"],a:1},
+{section:"Reading",difficulty:"A2",passage:"Sam usually walks to school because it is close to his house. Last Monday, however, it rained heavily, so his father drove him. After school, Sam went to the library to return two books. He also chose a new book about space because he wants to learn more about planets.",q:"What is Sam interested in learning about?",o:["Animals","Music","Planets","History"],a:2},
+
+/* ---------- SMALL B1 CEILING ---------- */
+{section:"Extension",difficulty:"B1 ceiling",q:"If I ___ more free time, I would learn another language.",o:["have","had","will have","am having"],a:1},
+{section:"Extension",difficulty:"B1 ceiling",q:"I was tired because I ___ all afternoon.",o:["study","have studied","had been studying","am studying"],a:2}
+];
+
+let current=0;
+let answers=new Array(questions.length).fill(null);
+let studentName="",studentAge="",studentClass="";
+
+function show(id){
+ document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function beginTest(){
+ studentName=document.getElementById("studentName").value.trim();
+ studentAge=document.getElementById("studentAge").value.trim();
+ studentClass=document.getElementById("studentClass").value.trim();
+ const err=document.getElementById("startError");
+ if(!studentName||!studentAge){err.style.display="block";return}
+ err.style.display="none"; current=0; show("quiz"); renderQuestion();
+}
+function renderQuestion(){
+ const q=questions[current];
+ document.getElementById("progress").style.width=((current+1)/questions.length*100)+"%";
+ document.getElementById("progressText").textContent=(current+1)+" / "+questions.length;
+ document.getElementById("sectionTag").textContent=q.section+" • "+q.difficulty;
+ document.getElementById("questionText").textContent=q.q;
+ const rb=document.getElementById("readingBox");
+ if(q.passage){rb.textContent=q.passage;rb.classList.remove("hidden")}else{rb.textContent="";rb.classList.add("hidden")}
+ const opts=document.getElementById("options"); opts.innerHTML="";
+ q.o.forEach((text,i)=>{
+   const b=document.createElement("button");
+   b.className="option"+(answers[current]===i?" selected":"");
+   b.innerHTML='<span class="letter">'+String.fromCharCode(65+i)+'.</span>'+escapeHtml(text);
+   b.onclick=()=>{answers[current]=i;document.querySelectorAll(".option").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");document.getElementById("answerError").style.display="none"};
+   opts.appendChild(b);
+ });
+ document.getElementById("prevBtn").style.visibility=current===0?"hidden":"visible";
+ document.getElementById("nextBtn").textContent=current===questions.length-1?"Finish ✓":"Next →";
+}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+function nextQuestion(){
+ if(answers[current]===null){document.getElementById("answerError").style.display="block";return}
+ if(current<questions.length-1){current++;renderQuestion()}else{finish()}
+}
+function previousQuestion(){if(current>0){current--;renderQuestion()}}
+function finish(){
+ const result=calculate();
+ document.getElementById("score").textContent=result.percent+"%";
+ document.getElementById("scoreFraction").textContent=result.correct+" / "+questions.length;
+ document.getElementById("level").textContent=result.level;
+ document.getElementById("levelDesc").textContent=result.desc;
+ const bd=document.getElementById("breakdown");bd.innerHTML="";
+ Object.entries(result.sections).forEach(([name,x])=>{
+   const pct=Math.round(x.correct/x.total*100);
+   bd.innerHTML+=`<div class="row"><div class="row-head"><span>${name}</span><span>${x.correct}/${x.total} (${pct}%)</span></div><div class="bar"><div class="fill" style="width:${pct}%"></div></div></div>`;
+ });
+ document.getElementById("teacherNote").textContent=result.note;
+ document.getElementById("speakingCheck").innerHTML=result.speaking;
+ show("results");
+}
+function calculate(){
+ let correct=0;
+ const sections={};
+ questions.forEach((q,i)=>{
+   if(!sections[q.section])sections[q.section]={correct:0,total:0};
+   sections[q.section].total++;
+   if(answers[i]===q.a){correct++;sections[q.section].correct++}
+ });
+ const percent=Math.round(correct/questions.length*100);
+ const basic=sections["Basic English"].correct;
+ const a1g=sections["A1 Grammar"].correct;
+ const a2g=sections["A2 Grammar"].correct;
+ const vocab=sections["Vocabulary"].correct;
+ const reading=sections["Reading"].correct;
+ const ext=sections["Extension"].correct;
+
+ /*
+   Placement logic deliberately uses CEILING / mastery, not a raw percentage.
+   This prevents a child from being placed too high simply by doing well
+   on easier questions.
+ */
+ let level,desc,note;
+ if(basic<=4){
+   level="Pre-A1 / Beginner";
+   desc="The student needs to build core classroom English: basic words, be, simple questions, numbers, objects and everyday expressions.";
+   note="Start with very basic beginner material. Prioritize listening, speaking, classroom language and high-frequency vocabulary. Do not move to A2 grammar yet.";
+ }else if(basic>=6 && a1g<=3){
+   level="A1 (Beginner)";
+   desc="The student has some basic English but still needs a strong foundation in everyday grammar and communication.";
+   note="A1 is the safest starting point. Build confidence with present simple, present continuous, past simple, basic questions, everyday vocabulary and short reading.";
+ }else if(basic>=6 && a1g>=6 && a2g<=4){
+   level="A1+ / Approaching A2";
+   desc="The student controls many A1 structures and is beginning to handle A2 grammar.";
+   note="Start around strong A1 / early A2. Review A1 gaps while introducing present perfect, future forms, comparatives, modals and longer reading.";
+ }else if(basic>=7 && a1g>=6 && a2g>=5 && vocab>=5 && reading>=4){
+   level="A2";
+   desc="The student demonstrates a solid A2 foundation across grammar, vocabulary and reading.";
+   note="A2 material is appropriate. Continue developing accuracy, longer answers, past/future narration, present perfect and functional communication.";
+ }else if(basic>=7 && a1g>=6 && a2g>=6 && vocab>=6 && reading>=5 && ext>=1){
+   level="A2+ / Approaching B1";
+   desc="The student is performing strongly at A2 and shows some ability beyond A2.";
+   note="Use A2+/early B1 material. Confirm the level with speaking and listening before placing the student fully into B1.";
+ }else{
+   level="A1+ / Developing";
+   desc="The student has a mixed profile. The overall score alone should not determine the starting point.";
+   note="Use the section scores and speaking check. Begin at the highest level where the student shows consistent control, then review weaker areas.";
+ }
+ const speaking = level.includes("Pre-A1") ?
+ "Ask: “What’s your name?”, “How old are you?”, “What is this?”, “What color is it?” and ask the child to name 5 familiar objects. Look for single words and memorized phrases." :
+ level==="A1 (Beginner)" ?
+ "Ask: “Tell me about yourself.” “What do you like?” “Tell me about your family.” “What do you do every day?” “What did you do yesterday?” Look for short but understandable sentences." :
+ "Ask: “Tell me about your school.” “What do you usually do after school?” “What did you do last weekend?” “What are you going to do next weekend?” “Which do you prefer and why?” Check whether the child can answer spontaneously, use basic linking words and maintain a short conversation.";
+ return {correct,percent,level,desc,note,sections,speaking};
+}
+function sendWhatsApp(){
+ const r=calculate();
+ const lines=[
+ "🌟 Young Learner English Placement Test",
+ "Student: "+studentName,
+ "Age: "+studentAge+(studentClass?" | Class: "+studentClass:""),
+ "",
+ "PLACEMENT: "+r.level,
+ "Score: "+r.percent+"% ("+r.correct+"/"+questions.length+")",
+ "",
+ ...Object.entries(r.sections).map(([n,x])=>n+": "+x.correct+"/"+x.total),
+ "",
+ "Teacher note: "+r.note
+ ];
+ const url="https://wa.me/"+TEACHER_PHONE+"?text="+encodeURIComponent(lines.join("\n"));
+ if(TEACHER_PHONE==="REPLACE_WITH_YOUR_WHATSAPP_NUMBER"){
+   alert("Please replace TEACHER_PHONE in the code with your WhatsApp number first.");
+   return;
+ }
+ window.open(url,"_blank");
+}
+</script>
 </body>
 </html>
